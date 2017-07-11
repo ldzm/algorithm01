@@ -1,13 +1,22 @@
 package algorithm01.chapter4;
 
+import java.util.ArrayDeque;
+import java.util.Deque;
+
 public class Bfs {
 
 	private class Node {
 		int x;
 		int y;
 		int s;
+
+		public Node(int x, int y, int s) {
+			this.x = x;
+			this.y = y;
+			this.s = s;
+		}
 	}
-	
+
 	void bfs() {
 
 		int a[][] =
@@ -18,12 +27,7 @@ public class Bfs {
 				{ 0, 0, 0, 1, 0 },
 				{ 0, 0, 1, 0, 0 },
 				{ 0, 0, 0, 0, 1 }, };
-		
-		Node que[] = new Node[2501];
-		for(int i = 0; i < que.length; i++) {
-			que[i] = new Node();
-		}
-		
+
 		int book[][] = new int[51][51];
 		int[][] next =
 		{
@@ -34,65 +38,56 @@ public class Bfs {
 		};
 		int n = 5;
 		int m = 4;
-		
+
 		int startx = 1;
 		int starty = 1;
 		int p = 4;
 		int q = 3;
-		
-		// init queue
-		int head = 1;
-		int tail = 1;
+
+		Deque<Node> queue = new ArrayDeque<Bfs.Node>();
 		// insert
-		que[tail].x = startx;
-		que[tail].y = starty;
-		que[tail].s = 0;
-		tail++;
+		Node newNode = new Node(startx, starty, 0);
+		queue.offer(newNode);
+
 		book[startx][starty] = 1;
 
-		int flag = 0; // 用来判断是否到达目标点 
-		
-		while(head < tail)
-		{
-			for (int k = 0; k < 4; k++)
-			{
-				int tx = que[head].x + next[k][0];
-				int ty = que[head].y + next[k][1];
-				if(tx < 1 || tx > n || ty < 1 || ty > m)
-				{
+		dfs_lable: 
+		while (!queue.isEmpty()) {
+			Node current = queue.poll(); 
+			
+			/**
+			if (current.x == 4 && current.y == 4) {
+				System.out.println("");
+			}
+			if (current.x == 5 && current.y == 3) {
+				System.out.println("");
+			}*/
+
+			for (int k = 0; k < 4; k++) {
+				int tx = current.x + next[k][0];
+				int ty = current.y + next[k][1];
+				if (tx < 1 || tx > n || ty < 1 || ty > m) {
 					continue;
 				}
 
-				if(0 == a[tx][ty] && 0 == book[tx][ty])
-				{
+				if (0 == a[tx][ty] && 0 == book[tx][ty]) {
 					book[tx][ty] = 1;
-					que[tail].x = tx;
-					que[tail].y = ty;
-					que[tail].s = que[head].s + 1;
-					tail++;
+					Node node = new Node(tx, ty, current.s + 1);
+					queue.offer(node);
 				}
-				
-				if (tx == p && ty == q)
-				{
-					flag = 1;
-					break;
+
+				if (tx == p && ty == q) {
+					break dfs_lable;
 				}
 			}
-			
-			if (1 == flag)
-			{
-				break;
-			}
-			
-			head++;
 		}
-		
-		System.out.println(que[tail - 1].s);
-		return;
+
+		// 获取队尾的数据
+		System.out.println(queue.pollLast().s);
 	}
-	
+
 	public static void main(String[] args) {
-		
+
 		new Bfs().bfs();
 	}
 }

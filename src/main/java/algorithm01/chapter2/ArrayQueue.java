@@ -18,6 +18,12 @@ public class ArrayQueue<E> implements Queue<E> {
 		head = tail = size = 0;
 	}
 
+	public ArrayQueue(int queueSize) {
+		super();
+		data = new ArrayList<E>(queueSize);
+		head = tail = size = 0;
+	}
+	
 	public boolean offer(E e) {
 		if (size >= QUEUE_SIZE) {
 			return false;
