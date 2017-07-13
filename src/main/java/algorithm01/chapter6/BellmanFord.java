@@ -4,7 +4,7 @@ import java.util.ArrayDeque;
 import java.util.Queue;
 
 public class BellmanFord {
-	public final static int INF_NUM = Integer.MAX_VALUE;
+	public final static int INF_NUM = Integer.MAX_VALUE / 2;
 
 	/**
 	 * 点u到其他点的最短距离
@@ -34,8 +34,8 @@ public class BellmanFord {
 
 			for (int i = 1; i <= m; i++) {
 
-				// dis[vy[i]] > dis[vx[i]] + w[i]
-				if (dis[vy[i]] - dis[vx[i]] > w[i]) {
+				// 
+				if (dis[vy[i]] > dis[vx[i]] + w[i]) {
 					dis[vy[i]] = dis[vx[i]] + w[i];
 				}
 			}
