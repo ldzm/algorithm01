@@ -51,7 +51,7 @@ public class DijkstraTest extends TestCase {
 				if (i == j) {
 					e[i][j] = 0;
 				} else {
-					e[i][j] = FloydWarshall.INF_NUM;
+					e[i][j] = Dijkstra.INF_NUM;
 				}
 			}
 		}
